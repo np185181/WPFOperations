@@ -14,7 +14,26 @@
                 <AdornedElementPlaceholder/>
             </DockPanel>
         </ControlTemplate>
-
+        <Style x:Key="LabelCommonStyle" TargetType="{x:Type Label}">
+            <Setter Property="HorizontalAlignment" Value="Left"/>
+            <Setter Property="VerticalAlignment" Value="Top"/>
+            <Setter Property="FontWeight" Value="Bold"/>
+        </Style>
+        <Style x:Key="TextboxCommonStyle" TargetType="{x:Type TextBox}">
+            <Setter Property="HorizontalAlignment" Value="Left"/>
+            <Setter Property="VerticalAlignment" Value="Top"/>
+        </Style>
+        <Style x:Key="ButtonCommonStyle" TargetType="{x:Type Button}">
+            <Setter Property="HorizontalAlignment" Value="Left"/>
+            <Setter Property="VerticalAlignment" Value="Top"/>
+            <Setter Property="Height" Value="27"/>
+        </Style>
+        <Style x:Key="DataGridStyle" TargetType="{x:Type DataGrid}">
+            <Setter Property="HorizontalAlignment" Value="Left"/>
+            <Setter Property="VerticalAlignment" Value="Top"/>
+            <Setter Property="Height" Value="192"/>
+            <Setter Property="Width" Value="568"/>
+        </Style>
         <Style x:Key="InputControlErrors" TargetType="{x:Type TextBox}">
             <Style.Triggers>
                 <Trigger Property="Validation.HasError" Value="true">
@@ -32,22 +51,22 @@
             <ColumnDefinition Width="31*"/>
             <ColumnDefinition Width="888*"/>
         </Grid.ColumnDefinitions>
-        <TextBox x:Name="txtContactId"  HorizontalAlignment="Left" VerticalAlignment="Top" Margin="39.514,79,0,0" Grid.Column="3" Visibility="Hidden"/>
-        <TextBox x:Name="txtFirstName" HorizontalAlignment="Left" Height="31" TextWrapping="Wrap" VerticalAlignment="Top" Width="155" Margin="138.514,23,0,0" Grid.Column="3" Validation.ErrorTemplate="{StaticResource validationTemplate}" 
-                 Style="{StaticResource InputControlErrors}">
+        <TextBox x:Name="txtContactId" Margin="39.514,79,0,0" Grid.Column="3" Visibility="Hidden" Style="{StaticResource TextboxCommonStyle}"/>
+        <TextBox x:Name="txtFirstName" Height="31" TextWrapping="Wrap" HorizontalAlignment="Left" VerticalAlignment="Top" Width="155" Margin="138.514,23,0,0" Grid.Column="3" Validation.ErrorTemplate="{StaticResource validationTemplate}" 
+                 Style="{StaticResource  InputControlErrors}">
 
         </TextBox>
-            <TextBox x:Name="txtLastName" HorizontalAlignment="Left" Height="36" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="155" Margin="138.514,79,0,0" Grid.Column="3"/>
-        <TextBox x:Name="txtAge" HorizontalAlignment="Left" Height="34" TextWrapping="Wrap" Text="0" VerticalAlignment="Top" Width="155" Margin="138.514,131,0,0" Grid.Column="3"/>
-       
-        <TextBox x:Name="txtMobile" HorizontalAlignment="Left" Height="34" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="155" Margin="138.514,188,0,0" Grid.Column="3"/>
-        <Label x:Name="lblFirstName" Content="First Name" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="37.514,28,0,0" Grid.Column="3" FontWeight="Bold"/>
-        <Label x:Name="lblLastName" Content="Last Name" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="39.514,79,0,0" Grid.Column="3" FontWeight="Bold"/>
-        <Label x:Name="lblAge" Content="Age" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="39.514,139,0,0" Grid.Column="3" FontWeight="Bold"/>
-        <Label x:Name="lblMobile" Content="Mobile Number" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="37.514,196,0,0" Grid.Column="3" FontWeight="Bold"/>
-        <Button x:Name="btnAdd" Content="Add" HorizontalAlignment="Left" VerticalAlignment="Top" Width="75" Margin="138.514,252,0,0" Click="Insert_Click" Grid.Column="3" FontWeight="Bold" Height="27"/>
-        <Button x:Name="btnCancel" Content="Cancel" HorizontalAlignment="Left" VerticalAlignment="Top" Width="75" Margin="218.514,252,0,0" Click="Cancel_Click" Grid.Column="3" FontWeight="Bold" Height="27"/>
-        <DataGrid x:Name="dataGridContact" HorizontalAlignment="Left" Margin="10,302,0,-51.6" VerticalAlignment="Top" Height="192" Width="568" 
+        <TextBox x:Name="txtLastName" Height="36" TextWrapping="Wrap" Text="" Width="155" Margin="138.514,79,0,0" Grid.Column="3" Style="{StaticResource TextboxCommonStyle}"/>
+        <TextBox x:Name="txtAge" Height="34" TextWrapping="Wrap" Text="0" Width="155" Margin="138.514,131,0,0" Grid.Column="3" Style="{StaticResource TextboxCommonStyle}"/>
+
+        <TextBox x:Name="txtMobile" Height="34" TextWrapping="Wrap" Text="" Width="155" Margin="138.514,188,0,0" Grid.Column="3" Style="{StaticResource TextboxCommonStyle}"/>
+        <Label x:Name="lblFirstName" Content="First Name" Margin="37.514,28,0,0" Grid.Column="3" Style="{StaticResource LabelCommonStyle}"/>
+        <Label x:Name="lblLastName" Content="Last Name" Margin="39.514,79,0,0" Grid.Column="3" Style="{StaticResource LabelCommonStyle}"/>
+        <Label x:Name="lblAge" Content="Age" Margin="39.514,139,0,0" Grid.Column="3" Style="{StaticResource LabelCommonStyle}"/>
+        <Label x:Name="lblMobile" Content="Mobile Number" Margin="37.514,196,0,0" Grid.Column="3" Style="{StaticResource LabelCommonStyle}"/>
+        <Button x:Name="btnAdd" Content="Add" Width="75" Margin="138.514,252,0,0" Click="Insert_Click" Grid.Column="3" Style="{StaticResource ButtonCommonStyle}"/>
+        <Button x:Name="btnCancel" Content="Cancel" Width="75" Margin="218.514,252,0,0" Click="Cancel_Click" Grid.Column="3" Style="{StaticResource ButtonCommonStyle}"/>
+        <DataGrid x:Name="dataGridContact" Margin="10,302,0,-51.6" Style="{StaticResource DataGridStyle}"
                   IsReadOnly="True" ItemsSource="{Binding}" 
                   AutoGenerateColumns="False" Grid.ColumnSpan="3" Grid.Column="1">
             <DataGrid.Columns>

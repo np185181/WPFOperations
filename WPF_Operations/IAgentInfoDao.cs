@@ -2,11 +2,15 @@
 
 namespace WPF_Operations
 {
+    /// <summary>
+    /// IAgentInfoDao
+    /// </summary>
     public interface IAgentInfoDao
     {
-        string AddAgentInfo(AgentInfo agentInfo);
-        string UpdateAgentInfo(AgentInfo agentInfo);
+        string AddOrUpdateAgentInfo(AgentInfo agentInfo);
+
         string DeleteAgentInfo(AgentInfo agentInfo);
+
         IList GetAgentInfo();
     }
 }

@@ -3,13 +3,15 @@ using NHibernate.Linq;
 using System;
 using System.Collections;
 using System.Linq;
+using NHibernate.Criterion;
 
 namespace WPF_Operations
 {
     public class AgentDao : IAgentInfoDao
     {
-        string resultMsg = string.Empty;
-        public string AddAgentInfo(AgentInfo agentInfo)
+        private string _resultMsg = string.Empty;
+
+        public string AddOrUpdateAgentInfo(AgentInfo agentInfo)
         {
             using (ISession session = SessionFactory.OpenSession)
             {
@@ -17,40 +19,29 @@ namespace WPF_Operations
                 {
                     try
                     {
-                        session.Save(agentInfo);
-                        transaction.Commit();
-                        resultMsg = "New Agent added successfully.";
+                        if (GetAgentInfo(agentInfo.AgentId) != null)
+                        {
+                            session.Update(agentInfo);
+                            transaction.Commit();
+                            _resultMsg = "Agent updated successfully.";
+                        }
+                        else
+                        {
+                            session.Save(agentInfo);
+                            transaction.Commit();
+                            _resultMsg = "New Agent added successfully.";
+                        }
                     }
                     catch (Exception ex)
                     {
                         transaction.Rollback();
-                        resultMsg = ex.Message;
+                        _resultMsg = ex.Message;
                     }
                 }
             }
-            return resultMsg;
+            return _resultMsg;
         }
-        public string UpdateAgentInfo(AgentInfo agentInfo)
-        {
-            using (ISession session = SessionFactory.OpenSession)
-            {
-                using (ITransaction transaction = session.BeginTransaction())
-                {
-                    try
-                    {
-                        session.Update(agentInfo);
-                        transaction.Commit();
-                        resultMsg = "Agent updated successfully.";
-                    }
-                    catch (Exception ex)
-                    {
-                        transaction.Rollback();
-                        resultMsg = ex.Message;
-                    }
-                }
-            }
-            return resultMsg;
-        }
+        
         public string DeleteAgentInfo(AgentInfo agentInfo)
         {
             using (ISession session = SessionFactory.OpenSession)
@@ -59,19 +50,27 @@ namespace WPF_Operations
                 {
                     try
                     {
-                        session.Delete(agentInfo); //delete the record 
-                        transaction.Commit(); //commit it 
-                        resultMsg = "Agent deleted successfully.";
+                        if (GetAgentInfo(agentInfo.AgentId) != null)
+                        {
+                            session.Delete(agentInfo); //delete the record 
+                            transaction.Commit(); //commit it 
+                            _resultMsg = "Agent deleted successfully.";
+                        }
+                        else
+                        {
+                            _resultMsg = "Agent details not found.";
+                        }
                     }
                     catch (Exception ex)
                     {
                         transaction.Rollback();
-                        resultMsg = ex.Message;
+                        _resultMsg = ex.Message;
                     }
                 }
             }
-            return resultMsg;
+            return _resultMsg;
         }
+        
         public IList GetAgentInfo()
         {
             using (ISession session = SessionFactory.OpenSession)
@@ -80,6 +79,24 @@ namespace WPF_Operations
                 {
                     var contactList = session.Query<AgentInfo>().ToList();
                     return contactList;
+                }
+            }
+        }
+
+        private AgentInfo GetAgentInfo(int agentId)
+        {
+            if (agentId == 0)
+            {
+                return null;
+            }
+            using (ISession session = SessionFactory.OpenSession)
+            {
+                using (ITransaction transaction = session.BeginTransaction())
+                {
+                    var criteria = session.CreateCriteria<AgentInfo>();
+                    criteria.Add(Restrictions.Eq("AgentId", agentId));
+                    var agentInfos = criteria.List<AgentInfo>();
+                    return agentInfos.FirstOrDefault();
                 }
             }
         }
